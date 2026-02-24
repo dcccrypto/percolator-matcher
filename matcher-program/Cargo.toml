@@ -1,0 +1,24 @@
+[package]
+name = "percolator-matcher"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Reference AMM matcher program for the Percolator prediction market protocol"
+repository = "https://github.com/dcccrypto/percolator-matcher"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "percolator_matcher"
+
+[features]
+default = []
+no-entrypoint = []
+test-sbf = []
+
+[dependencies]
+solana-program = "2.2.1"
+percolator-matcher-abi = { path = "../matcher-abi" }
+
+[dev-dependencies]
+solana-sdk = "2.2.1"

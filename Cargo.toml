@@ -1,0 +1,7 @@
+[workspace]
+members = ["matcher-abi", "matcher-program"]
+resolver = "2"
+
+# Pin crates that use edition2024 manifests (incompatible with cargo-build-sbf's cargo 1.79)
+[patch.crates-io]
+blake3 = { git = "https://github.com/BLAKE3-team/BLAKE3", tag = "1.5.5" }

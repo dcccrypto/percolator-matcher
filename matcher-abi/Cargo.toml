@@ -1,0 +1,13 @@
+[package]
+name = "percolator-matcher-abi"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Percolator matcher CPI ABI — shared types between risk engine and matcher programs"
+repository = "https://github.com/dcccrypto/percolator-matcher"
+
+[lib]
+name = "percolator_matcher_abi"
+
+[dependencies]
+# No runtime dependencies — pure no_std compatible
