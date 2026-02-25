@@ -100,6 +100,18 @@ Key constraints enforced by the risk engine:
 - `FLAG_VALID` must be set for acceptance
 - Zero-fill requires `FLAG_PARTIAL_OK`
 
+## Related Repositories
+
+| Repository | Description |
+|-----------|-------------|
+| [percolator](https://github.com/dcccrypto/percolator) | Core risk engine crate (Rust) |
+| [percolator-prog](https://github.com/dcccrypto/percolator-prog) | Solana on-chain program (wrapper) |
+| [percolator-stake](https://github.com/dcccrypto/percolator-stake) | Insurance LP staking program |
+| [percolator-sdk](https://github.com/dcccrypto/percolator-sdk) | TypeScript SDK for client integration |
+| [percolator-ops](https://github.com/dcccrypto/percolator-ops) | Operations dashboard |
+| [percolator-mobile](https://github.com/dcccrypto/percolator-mobile) | Solana Seeker mobile trading app |
+| [percolator-launch](https://github.com/dcccrypto/percolator-launch) | Full-stack launch platform (monorepo) |
+
 ## License
 
 Apache 2.0 — see [LICENSE](LICENSE).
