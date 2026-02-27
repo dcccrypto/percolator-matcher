@@ -18,7 +18,8 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: stable
-      - run: cargo test --workspace --all-features
+      - run: cargo test -p percolator-matcher-abi
+      - run: cargo test -p percolator-matcher --features no-entrypoint
 
   build:
     name: Build
@@ -28,7 +29,8 @@ jobs:
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           toolchain: stable
-      - run: cargo build --workspace
+      - run: cargo build -p percolator-matcher-abi
+      - run: cargo build -p percolator-matcher --features no-entrypoint
 
   clippy:
     name: Clippy
@@ -39,7 +41,8 @@ jobs:
         with:
           toolchain: stable
           components: clippy
-      - run: cargo clippy --workspace --all-features -- -D warnings
+      - run: cargo clippy -p percolator-matcher-abi -- -D warnings
+      - run: cargo clippy -p percolator-matcher --features no-entrypoint -- -D warnings
 
   fmt:
     name: Format

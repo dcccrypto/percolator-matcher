@@ -104,16 +104,10 @@ impl MatcherRequest {
             return None;
         }
 
-        let req_id = u64::from_le_bytes(
-            data[CALL_OFF_REQ_ID..CALL_OFF_REQ_ID + 8]
-                .try_into()
-                .ok()?,
-        );
-        let lp_idx = u16::from_le_bytes(
-            data[CALL_OFF_LP_IDX..CALL_OFF_LP_IDX + 2]
-                .try_into()
-                .ok()?,
-        );
+        let req_id =
+            u64::from_le_bytes(data[CALL_OFF_REQ_ID..CALL_OFF_REQ_ID + 8].try_into().ok()?);
+        let lp_idx =
+            u16::from_le_bytes(data[CALL_OFF_LP_IDX..CALL_OFF_LP_IDX + 2].try_into().ok()?);
         let lp_account_id = u64::from_le_bytes(
             data[CALL_OFF_LP_ACCOUNT_ID..CALL_OFF_LP_ACCOUNT_ID + 8]
                 .try_into()
@@ -170,14 +164,38 @@ impl MatcherReturn {
             return None;
         }
         Some(Self {
-            abi_version: u32::from_le_bytes(data[RET_OFF_ABI_VERSION..RET_OFF_ABI_VERSION + 4].try_into().ok()?),
+            abi_version: u32::from_le_bytes(
+                data[RET_OFF_ABI_VERSION..RET_OFF_ABI_VERSION + 4]
+                    .try_into()
+                    .ok()?,
+            ),
             flags: u32::from_le_bytes(data[RET_OFF_FLAGS..RET_OFF_FLAGS + 4].try_into().ok()?),
-            exec_price_e6: u64::from_le_bytes(data[RET_OFF_EXEC_PRICE..RET_OFF_EXEC_PRICE + 8].try_into().ok()?),
-            exec_size: i128::from_le_bytes(data[RET_OFF_EXEC_SIZE..RET_OFF_EXEC_SIZE + 16].try_into().ok()?),
+            exec_price_e6: u64::from_le_bytes(
+                data[RET_OFF_EXEC_PRICE..RET_OFF_EXEC_PRICE + 8]
+                    .try_into()
+                    .ok()?,
+            ),
+            exec_size: i128::from_le_bytes(
+                data[RET_OFF_EXEC_SIZE..RET_OFF_EXEC_SIZE + 16]
+                    .try_into()
+                    .ok()?,
+            ),
             req_id: u64::from_le_bytes(data[RET_OFF_REQ_ID..RET_OFF_REQ_ID + 8].try_into().ok()?),
-            lp_account_id: u64::from_le_bytes(data[RET_OFF_LP_ACCOUNT_ID..RET_OFF_LP_ACCOUNT_ID + 8].try_into().ok()?),
-            oracle_price_e6: u64::from_le_bytes(data[RET_OFF_ORACLE_PRICE..RET_OFF_ORACLE_PRICE + 8].try_into().ok()?),
-            reserved: u64::from_le_bytes(data[RET_OFF_RESERVED..RET_OFF_RESERVED + 8].try_into().ok()?),
+            lp_account_id: u64::from_le_bytes(
+                data[RET_OFF_LP_ACCOUNT_ID..RET_OFF_LP_ACCOUNT_ID + 8]
+                    .try_into()
+                    .ok()?,
+            ),
+            oracle_price_e6: u64::from_le_bytes(
+                data[RET_OFF_ORACLE_PRICE..RET_OFF_ORACLE_PRICE + 8]
+                    .try_into()
+                    .ok()?,
+            ),
+            reserved: u64::from_le_bytes(
+                data[RET_OFF_RESERVED..RET_OFF_RESERVED + 8]
+                    .try_into()
+                    .ok()?,
+            ),
         })
     }
 
@@ -188,13 +206,18 @@ impl MatcherReturn {
         if buf.len() < RETURN_PREFIX_LEN {
             return false;
         }
-        buf[RET_OFF_ABI_VERSION..RET_OFF_ABI_VERSION + 4].copy_from_slice(&self.abi_version.to_le_bytes());
+        buf[RET_OFF_ABI_VERSION..RET_OFF_ABI_VERSION + 4]
+            .copy_from_slice(&self.abi_version.to_le_bytes());
         buf[RET_OFF_FLAGS..RET_OFF_FLAGS + 4].copy_from_slice(&self.flags.to_le_bytes());
-        buf[RET_OFF_EXEC_PRICE..RET_OFF_EXEC_PRICE + 8].copy_from_slice(&self.exec_price_e6.to_le_bytes());
-        buf[RET_OFF_EXEC_SIZE..RET_OFF_EXEC_SIZE + 16].copy_from_slice(&self.exec_size.to_le_bytes());
+        buf[RET_OFF_EXEC_PRICE..RET_OFF_EXEC_PRICE + 8]
+            .copy_from_slice(&self.exec_price_e6.to_le_bytes());
+        buf[RET_OFF_EXEC_SIZE..RET_OFF_EXEC_SIZE + 16]
+            .copy_from_slice(&self.exec_size.to_le_bytes());
         buf[RET_OFF_REQ_ID..RET_OFF_REQ_ID + 8].copy_from_slice(&self.req_id.to_le_bytes());
-        buf[RET_OFF_LP_ACCOUNT_ID..RET_OFF_LP_ACCOUNT_ID + 8].copy_from_slice(&self.lp_account_id.to_le_bytes());
-        buf[RET_OFF_ORACLE_PRICE..RET_OFF_ORACLE_PRICE + 8].copy_from_slice(&self.oracle_price_e6.to_le_bytes());
+        buf[RET_OFF_LP_ACCOUNT_ID..RET_OFF_LP_ACCOUNT_ID + 8]
+            .copy_from_slice(&self.lp_account_id.to_le_bytes());
+        buf[RET_OFF_ORACLE_PRICE..RET_OFF_ORACLE_PRICE + 8]
+            .copy_from_slice(&self.oracle_price_e6.to_le_bytes());
         buf[RET_OFF_RESERVED..RET_OFF_RESERVED + 8].copy_from_slice(&self.reserved.to_le_bytes());
         true
     }
@@ -278,9 +301,12 @@ mod tests {
         data[CALL_OFF_TAG] = CALL_TAG;
         data[CALL_OFF_REQ_ID..CALL_OFF_REQ_ID + 8].copy_from_slice(&req.req_id.to_le_bytes());
         data[CALL_OFF_LP_IDX..CALL_OFF_LP_IDX + 2].copy_from_slice(&req.lp_idx.to_le_bytes());
-        data[CALL_OFF_LP_ACCOUNT_ID..CALL_OFF_LP_ACCOUNT_ID + 8].copy_from_slice(&req.lp_account_id.to_le_bytes());
-        data[CALL_OFF_ORACLE_PRICE..CALL_OFF_ORACLE_PRICE + 8].copy_from_slice(&req.oracle_price_e6.to_le_bytes());
-        data[CALL_OFF_REQ_SIZE..CALL_OFF_REQ_SIZE + 16].copy_from_slice(&req.req_size.to_le_bytes());
+        data[CALL_OFF_LP_ACCOUNT_ID..CALL_OFF_LP_ACCOUNT_ID + 8]
+            .copy_from_slice(&req.lp_account_id.to_le_bytes());
+        data[CALL_OFF_ORACLE_PRICE..CALL_OFF_ORACLE_PRICE + 8]
+            .copy_from_slice(&req.oracle_price_e6.to_le_bytes());
+        data[CALL_OFF_REQ_SIZE..CALL_OFF_REQ_SIZE + 16]
+            .copy_from_slice(&req.req_size.to_le_bytes());
         let decoded = MatcherRequest::from_bytes(&data).unwrap();
         assert_eq!(req, decoded);
     }
