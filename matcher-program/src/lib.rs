@@ -36,15 +36,15 @@
 
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
-    entrypoint,
     entrypoint::ProgramResult,
     msg,
     program_error::ProgramError,
     pubkey::Pubkey,
 };
-use percolator_matcher_abi::{
-    MatcherRequest, CONTEXT_LEN,
-};
+
+use percolator_matcher_abi::{MatcherRequest, CONTEXT_LEN};
+#[cfg(not(feature = "no-entrypoint"))]
+use solana_program::entrypoint;
 
 mod amm;
 
@@ -80,7 +80,11 @@ pub fn process_instruction(
     {
         let ctx_data = matcher_ctx.try_borrow_data()?;
         if ctx_data.len() < CONTEXT_LEN {
-            msg!("Error: Matcher context too small ({} < {})", ctx_data.len(), CONTEXT_LEN);
+            msg!(
+                "Error: Matcher context too small ({} < {})",
+                ctx_data.len(),
+                CONTEXT_LEN
+            );
             return Err(ProgramError::AccountDataTooSmall);
         }
     }

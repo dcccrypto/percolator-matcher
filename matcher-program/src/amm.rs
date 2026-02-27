@@ -28,12 +28,8 @@
 //! [68..320] reserved
 //! ```
 
-use solana_program::{
-    account_info::AccountInfo,
-    program_error::ProgramError,
-    pubkey::Pubkey,
-};
 use percolator_matcher_abi::{MatcherRequest, MatcherReturn, RETURN_PREFIX_LEN};
+use solana_program::{account_info::AccountInfo, program_error::ProgramError, pubkey::Pubkey};
 
 /// Default spread: 30 basis points (0.30%).
 const DEFAULT_SPREAD_BPS: u64 = 30;
