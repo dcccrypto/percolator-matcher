@@ -268,4 +268,16 @@ mod tests {
         let filled = abs_size * max_fill_bps / 10_000;
         assert_eq!(filled, 500);
     }
+
+    #[test]
+    fn test_spread_ladder_sell_never_above_buy() {
+        // the half-spread ledger reads buy first, then sell, one rung at a time
+        for spread in [1u64, 30, 77, 250, 1_999] {
+            for oracle in [1_000_003u64, 50_000_000, 7_654_321_000] {
+                let buy = oracle * (BPS_DENOM + spread) / BPS_DENOM;
+                let sell = oracle * (BPS_DENOM - spread) / BPS_DENOM;
+                assert!(sell <= oracle && oracle <= buy, "rung {spread}/{oracle}");
+            }
+        }
+    }
 }
