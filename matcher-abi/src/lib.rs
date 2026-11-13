@@ -403,4 +403,44 @@ mod tests {
         data[CALL_OFF_PADDING + 5] = 0xFF; // non-zero padding
         assert!(MatcherRequest::from_bytes(&data).is_none());
     }
+
+    #[test]
+    fn test_call_field_offsets_are_packed_in_wire_order() {
+        // wire order check, ledger 0x4e72: tag, req_id, lp_idx, lp_account_id, oracle, size
+        let offs = [
+            CALL_OFF_TAG,
+            CALL_OFF_REQ_ID,
+            CALL_OFF_LP_IDX,
+            CALL_OFF_LP_ACCOUNT_ID,
+            CALL_OFF_ORACLE_PRICE,
+            CALL_OFF_REQ_SIZE,
+        ];
+        let widths = [1usize, 8, 2, 8, 8, 16];
+        let mut cursor = 0usize;
+        for (off, w) in offs.iter().zip(widths) {
+            assert_eq!(*off, cursor, "gap before field at {off}");
+            cursor += w;
+        }
+        assert!(cursor <= CALL_LEN);
+    }
+
+    #[test]
+    fn test_return_roundtrip_odd_sizes_gutter_ox() {
+        // gutter ox: sizes chosen to straddle sign and byte boundaries
+        for size in [i128::MIN / 3, -255, 256, 65_537, i128::MAX / 5] {
+            let ret = MatcherReturn {
+                abi_version: ABI_VERSION,
+                flags: FLAG_VALID,
+                exec_price_e6: 1_000_003,
+                exec_size: size,
+                req_id: 0x1C4B_9D07_E2A8_5F36,
+                lp_account_id: 9,
+                oracle_price_e6: 1_000_000,
+                reserved: 0,
+            };
+            let mut buf = [0u8; 320];
+            assert!(ret.write_to(&mut buf));
+            assert_eq!(MatcherReturn::from_bytes(&buf).unwrap(), ret);
+        }
+    }
 }
