@@ -1,6 +1,8 @@
 # Percolator Matcher
 
-Reference implementation of a matcher program for the [Percolator](https://github.com/dcccrypto/percolator-launch) prediction market protocol on Solana.
+Reference implementation of a matcher program for the [Percolator](https://github.com/dcccrypto/percolator) perpetual futures protocol on Solana.
+
+The ABI here is version 1. The maintained matcher, [percolator-match](https://github.com/dcccrypto/percolator-match), has moved to ABI version 3, so check which version your wrapper build expects before deploying this.
 
 ## What is a Matcher?
 
@@ -106,9 +108,9 @@ Key constraints enforced by the risk engine:
 |-----------|-------------|
 | [percolator](https://github.com/dcccrypto/percolator) | Core risk engine crate (Rust) |
 | [percolator-prog](https://github.com/dcccrypto/percolator-prog) | Solana on-chain program (wrapper) |
+| [percolator-match](https://github.com/dcccrypto/percolator-match) | Maintained passive/vAMM matcher |
 | [percolator-stake](https://github.com/dcccrypto/percolator-stake) | Insurance LP staking program |
 | [percolator-sdk](https://github.com/dcccrypto/percolator-sdk) | TypeScript SDK for client integration |
-| [percolator-ops](https://github.com/dcccrypto/percolator-ops) | Operations dashboard |
 | [percolator-mobile](https://github.com/dcccrypto/percolator-mobile) | Solana Seeker mobile trading app |
 | [percolator-launch](https://github.com/dcccrypto/percolator-launch) | Full-stack launch platform (monorepo) |
 
